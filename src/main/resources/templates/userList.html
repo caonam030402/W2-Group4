@@ -30,18 +30,32 @@
     <th>Id</th>
     <th>First Name</th>
     <th>Last Name</th>
+    <th>Company ID</th>
+    <th>Company Name</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="user : ${users}">
-    <td style="width: 10%" th:text="${user.id}"></td>
+    <td style="width: 10%" th:text="${user.getId()}"></td>
     <td style="width: 30%" th:text="${user.firstName}"></td>
     <td style="width: 30%" th:text="${user.lastName}"></td>
+    <td style="width: 20%" th:text="${user.company.getId()}"></td>
+    <td style="width: 30%" th:text="${user.company.getCompanyName()}"></td>
   </tr>
   </tbody>
 </table>
 <button type="submit" style="margin-left: 200px; margin-top: 10px">
   <a href="/addUser" class="btn btn-primary" style="text-decoration: none">Add User</a>
+</button>
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+  <a href="/addCompany" class="btn btn-primary" style="text-decoration: none">Add Company</a>
+</button>
+
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+  <a href="/user" class="btn btn-primary" style="text-decoration: none">Add User</a>
+</button>
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+  <a href="/listCompany" class="btn btn-primary" style="text-decoration: none">Add User</a>
 </button>
 </body>
 </html>

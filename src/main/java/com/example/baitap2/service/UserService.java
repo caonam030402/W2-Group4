@@ -14,6 +14,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public Iterable<Object[]> getAllUserWithCompany(){
+      return  userRepository.findAllUsersWithCompanyByCompanyId();
+    };
+
     public Iterable<UserModel> getAllUsers(){
         return userRepository.findAll();
     }
