@@ -38,6 +38,11 @@
       border: none;
       cursor: pointer;
     }
+    select{
+      margin-left: 8px;
+      width: 169px;
+      padding: 2px;
+    }
   </style>
 </head>
 <body>
@@ -52,6 +57,29 @@
     <div>
       <label for="lastName">Last Name:</label>
       <input type="text" id="lastName" th:field="*{lastName}" required/>
+    </div>
+    <br>
+    <div>
+      <label for="email">Email:</label>
+      <input type="text" id="email" th:field="*{email}" required/>
+    </div>
+    <br>
+    <div>
+      <label for="password">Password:</label>
+      <input type="text" id="password" th:field="*{password}" required/>
+    </div>
+    <div style="margin-top: 20px">
+      <label for="company">Company:</label>
+      <select id="company" th:field="*{companyId}" required>
+        <option value="" disabled selected>Select a company</option>
+        <option th:each="company : ${companyList}" th:value="${company.getId()}" th:text="${company.companyName}"></option>
+      </select>
+      <br>
+      <label for="roleId">Role:</label>
+      <select id="roleId" th:field="*{roleId}" required>
+        <option value="" disabled selected>Select a role</option>
+        <option th:each="role : ${roleList}" th:value="${role.getId()}" th:text="${role.roleName}"></option>
+      </select>
     </div>
     <div>
       <input class="create-button" type="submit" value="Create"/>

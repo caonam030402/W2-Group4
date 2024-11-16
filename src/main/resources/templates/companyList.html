@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            flex: 1;
+            width: 75%;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th,td {
+            text-align: center;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        a{
+            color: black;
+        }
+    </style>
+</head>
+<body style="align-items: center" >
+<button >
+    <a href="@{/logout}">Logout</a>
+</button>
+<h1 style="text-align: center">Company List</h1>
+<table style="align-items: center;">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>CompanyName</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="company : ${companies}">
+        <td style="width: 10%" th:text="${company.id}"></td>
+        <td style="width: 30%" >
+            <p th:text="${company.getCompanyName()}"></p>
+        </td>
+        <td style="width: 30%">
+            <a th:href="@{/delete(id=${company.id})}">Delete</a>
+            <a th:href="@{/updateCompany(id=${company.id})}">Update</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+    <a href="/addCompany" class="btn btn-primary" style="text-decoration: none">Add Company</a>
+</button>
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+    <a href="/addUser" class="btn btn-primary" style="text-decoration: none">Add User</a>
+</button>
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+    <a href="/user" class="btn btn-primary" style="text-decoration: none">List User</a>
+</button>
+<button type="submit" style="margin-left: 200px; margin-top: 10px">
+    <a href="/listCompany" class="btn btn-primary" style="text-decoration: none">List Company</a>
+</button>
+</body>
+<script>
+
+</script>
+</html>
