@@ -50,15 +50,18 @@
   <h1>Login</h1>
   <form th:action = "@{/login}" method = "post">
     <div>
-      <label> User Name : <input type = "text" name = "username"/> </label>
+      <label> Email : <input type = "text" id="email" name = "username" required/> </label>
     </div>
     <div>
-      <label> Password: <input type = "password" name = "password"/> </label>
+      <label> Password: <input type = "password" id="password" name="password" required/> </label>
     </div>
     <div>
-      <input class="create-button" type="submit" value="Create"/>
+      <input class="create-button" type="submit" value="Login"/>
     </div>
   </form>
+  <div style="margin-top: 10px">
+    <a type="button" href="/register">Register</a>
+  </div>
 </div>
 </body>
 </html>

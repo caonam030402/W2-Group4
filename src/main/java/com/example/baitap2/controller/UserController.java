@@ -63,13 +63,4 @@ public class UserController {
         return "userList";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        return "login";
-    }
 }
