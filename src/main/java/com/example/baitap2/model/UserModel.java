@@ -1,7 +1,10 @@
 package com.example.baitap2.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import java.util.Set;
+
+import java.util.List;
 
 
 @Entity
@@ -19,7 +22,7 @@ public class UserModel {
     @Column
     private String lastName;
 
-    @Column
+    @Column(nullable = true)
     private Integer companyId;
 
     @Column
@@ -30,7 +33,9 @@ public class UserModel {
 
     @ManyToOne
     @JoinColumn(name = "companyId", insertable = false, updatable = false)
+    @JsonBackReference // Ngăn vòng lặp khi serialize
     private CompanyModel company;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -38,7 +43,7 @@ public class UserModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<RoleModel> roles;
+    private List<RoleModel> roles;
 
     // Getters and Setters
 
@@ -98,11 +103,11 @@ public class UserModel {
         this.company = company;
     }
 
-    public Set<RoleModel> getRoles() {
+    public List<RoleModel> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RoleModel> roles) {
+    public void setRoles(List<RoleModel> roles) {
         this.roles = roles;
     }
 

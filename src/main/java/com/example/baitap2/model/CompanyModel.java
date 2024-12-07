@@ -1,5 +1,6 @@
 package com.example.baitap2.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -17,8 +18,9 @@ public class CompanyModel {
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "companyId",referencedColumnName = "id")
-    private List<UserModel> listUser;
+    @JoinColumn(name = "companyId", referencedColumnName = "id")
+    @JsonManagedReference
+    private List<UserModel> users;
 
     public int getId() {
         return id;
@@ -36,8 +38,8 @@ public class CompanyModel {
         this.companyName = companyName;
     }
 
-    public  void setListUser(List<UserModel> listUser) {
-        this.listUser = listUser;
+    public  void setListUser(List<UserModel> users) {
+        this.users = users;
     }
 
     @Override

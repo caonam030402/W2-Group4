@@ -6,29 +6,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private UserDetailsServiceIml userDetailsService;
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-
-        return new ProviderManager(authenticationProvider);
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        return authenticationManagerBuilder.build();
     }
 
     @Bean
@@ -36,15 +39,6 @@ public class WebSecurityConfig {
         return new UserDetailsServiceIml();
     }
 
-//    @Bean
-//    protected UserDetailsService userDetailsService() {
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password(passwordEncoder().encode("1234"))
-//                .roles("USER", "ADMIN")
-//                .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
     @Bean
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,23 +46,21 @@ public class WebSecurityConfig {
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http.headers(httpSecurityHeadersConfigurer -> {
+                    httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);
+                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/", "/login", "/register").permitAll()
-                                .anyRequest().authenticated()
+//                                .requestMatchers(
+//                                        "/h2-console",
+//                                        "/login", "/register", "/", "api/**"
+//                                ).permitAll()
+                                .anyRequest().permitAll()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/addUser")
-                        .permitAll())
-                .logout(config -> config
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .permitAll())
-                .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/access-denied"))
-                .build();
+                .sessionManagement(sess -> sess
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No sessions
+                );
+        return http.build();
     }
 }

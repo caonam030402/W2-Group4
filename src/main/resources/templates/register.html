@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add User Form</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid black;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: white;
+      width: 300px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .create-button{
+      font-size: 14px;
+      color: white;
+      background-color: black;
+      width: 100%;
+      height: 30px;
+      margin-top: 20px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    select{
+      margin-left: 8px;
+      width: 169px;
+      padding: 2px;
+    }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <h1>Register</h1>
+  <form th:action = "@{/register}" method = "post">
+    <div>
+      <label> First Name : <input type = "text" name = "firstName"/> </label>
+    </div>
+    <div>
+      <label> Last Name : <input type = "text" name = "lastName"/> </label>
+    </div>
+    <div>
+      <label> Email: <input type = "email" name = "email"/> </label>
+    </div>
+    <div>
+      <label> Password: <input type = "password" name = "password"/> </label>
+    </div>
+    <div>
+      <input class="create-button" type="submit" value="Register"/>
+    </div>
+  </form>
+  <div style="margin-top: 10px">
+    <a type="button" href="/login">Login</a>
+  </div>
+</div>
+</body>
+</html>
